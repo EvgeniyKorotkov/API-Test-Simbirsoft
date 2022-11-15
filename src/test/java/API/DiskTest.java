@@ -1,6 +1,7 @@
 package API;
 
 import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.ResponseSpecification;
 import org.junit.Test;
@@ -21,10 +22,16 @@ public class DiskTest {
         Response response = given()
                 .when()
                 .get("v1/disk/resources")
-                .then().log().all()
-                .body("name", notNullValue())
+                .then()
+                .body("_embedded.items.name", notNullValue()) // проверяем, что наши поля name не пустые
                 .extract().response();
-
-
+        // преобразуем наш респонс в JsonPath
+        JsonPath jsonPath = response.jsonPath();
+        // получаем список с именами файлов и папок
+        List<String> names = jsonPath.get("_embedded.items.name");
+        // перебираем список с именами файлов и папок и печатаем в консоль
+        for(int i =0; i <names.size();i++) {
+            System.out.println(names.get(i));
+        }
     }
 }
