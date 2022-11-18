@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  test1:
+    build: ./
+    container_name: testAPI
+    ports:
+    - 4444:4444
+
+

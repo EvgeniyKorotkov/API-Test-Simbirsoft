@@ -30,3 +30,4 @@ public class Specifications {
             RestAssured.responseSpecification = response;
         }
 }
+
